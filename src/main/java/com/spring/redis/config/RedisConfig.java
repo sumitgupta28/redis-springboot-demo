@@ -3,6 +3,7 @@ package com.spring.redis.config;
 import com.spring.redis.consumer.ProductRequestInventoryConsumer;
 import com.spring.redis.consumer.ProductRequestProcessConsumer;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -48,15 +49,23 @@ public class RedisConfig {
         return RedisCacheManager.builder(connectionFactory).cacheDefaults(config).build();
     }
 
+
+    @Bean
+    public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
+        return (builder) -> builder
+                .withCacheConfiguration("itemCache",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)));
+    }
+
+
     /**
      * Redis configuration for Consumer
      */
 
     @Bean
     public RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
-                                                   @Qualifier("productRequestInventoryConsumerMessageListenerAdapter") MessageListenerAdapter  productRequestInventoryConsumer,
-                                                   @Qualifier("productRequestProcessConsumerMessageListenerAdapter") MessageListenerAdapter productRequestProcessConsumer)
-    {
+                                                   @Qualifier("productRequestInventoryConsumerMessageListenerAdapter") MessageListenerAdapter productRequestInventoryConsumer,
+                                                   @Qualifier("productRequestProcessConsumerMessageListenerAdapter") MessageListenerAdapter productRequestProcessConsumer) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(productRequestInventoryConsumer, new ChannelTopic(PRODUCT_MESSAGE_CHANNEL)); // Define your channel
