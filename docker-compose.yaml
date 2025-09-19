@@ -1,0 +1,17 @@
+services:
+  redis:
+    image: circleci/redis:7.0-rc-alpine3.15
+    container_name: my-redis-instance
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes # For development/testing, use a strong password in production
+    volumes:
+      - redis_data:/bitnami/redis/data
+
+volumes:
+  redis_data:
+
+
+
+
