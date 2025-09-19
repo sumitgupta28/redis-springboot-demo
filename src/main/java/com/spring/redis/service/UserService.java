@@ -19,6 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @CachePut(value = "users",key = "#appUser.id")
     public AppUser createUser(AppUser appUser)
     {
         return userRepository.saveAndFlush(appUser);

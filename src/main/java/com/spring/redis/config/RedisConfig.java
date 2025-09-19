@@ -17,6 +17,8 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.spring.redis.constant.CommonConstants.PRODUCT_MESSAGE_CHANNEL;
 
@@ -41,21 +43,24 @@ public class RedisConfig {
     /**
      * Redis Cache Configuration
      */
-    @Bean
+    /*@Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(10)) // Set default TTL to 10 minutes
                 .disableCachingNullValues();
-        return RedisCacheManager.builder(connectionFactory).cacheDefaults(config).build();
+        return RedisCacheManager.builder(connectionFactory).cacheDefaults(config)..build();
     }
-
+*/
 
     @Bean
-    public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
-        return (builder) -> builder
-                .withCacheConfiguration("users",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)));
+    RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
+        return (builder) -> {
+            Map<String, RedisCacheConfiguration> configurationMap = new HashMap<>();
+            configurationMap.put("users", RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofSeconds(20)));
+            builder.withInitialCacheConfigurations(configurationMap);
+        };
     }
+
 
 
     /**
