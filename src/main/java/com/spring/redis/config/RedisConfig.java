@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCust
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -24,7 +23,6 @@ import static com.spring.redis.constant.CommonConstants.PRODUCT_MESSAGE_CHANNEL;
 
 @Configuration
 public class RedisConfig {
-
 
     /**
      * Redis configuration for Messages Provider and Database (in-memory)
@@ -51,7 +49,6 @@ public class RedisConfig {
         return RedisCacheManager.builder(connectionFactory).cacheDefaults(config)..build();
     }
 */
-
     @Bean
     RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return (builder) -> {
@@ -60,7 +57,6 @@ public class RedisConfig {
             builder.withInitialCacheConfigurations(configurationMap);
         };
     }
-
 
 
     /**

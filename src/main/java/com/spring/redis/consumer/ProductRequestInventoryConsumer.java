@@ -16,12 +16,12 @@ public class ProductRequestInventoryConsumer implements MessageListener {
     @Override
     public void onMessage(Message message, byte[] pattern) {
         try {
-            log.info("[ProductRequestInventoryConsumer]Received message on Channel : {} " , new String(message.getChannel()));
+            log.info("[ProductRequestInventoryConsumer]Received message on Channel : {} ", new String(message.getChannel()));
             // Deserialize the message body back to your object type
             Product receivedMessage = (Product) serializer.deserialize(message.getBody());
-            log.info("[ProductRequestInventoryConsumer]Received message: {} " , receivedMessage);
+            log.info("[ProductRequestInventoryConsumer]Received message: {} ", receivedMessage);
         } catch (Exception e) {
-            log.error("[ProductRequestInventoryConsumer]Error deserializing message: {} " , e.getMessage(),e);
+            log.error("[ProductRequestInventoryConsumer]Error deserializing message: {} ", e.getMessage(), e);
         }
     }
 }
