@@ -3,12 +3,14 @@ package com.spring.redis.controller;
 
 import com.spring.redis.entity.Product;
 import com.spring.redis.repository.ProductRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
+@Tag(name = "Redis Database ", description = "Below APIs Demonstrate how Redis can be used as Database")
 public class ProductCurdController {
 
     private final ProductRepository productRepository;
